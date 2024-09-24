@@ -5,6 +5,7 @@ import { AuthModule } from './app/http/auth/auth.module';
 import { HomepageModule } from './app/http/homepage/homepage.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { StoreOwnerModule } from './store-owner/store-owner.module';
 
 
 
@@ -21,7 +22,8 @@ import { ConfigModule } from '@nestjs/config';
       database: process.env.DB_DB,
       entities: process.env.NODE_ENV === 'PRODUCTION' ? ['dist/database/entities/*.entity{.ts,.js}'] :  ['src/database/entities/*.entity.ts'],
       synchronize: true,
-    })
+    }),
+    StoreOwnerModule
   ],
   controllers: [AppController],
   providers: [AppService],
