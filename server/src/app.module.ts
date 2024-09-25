@@ -5,7 +5,7 @@ import { AuthModule } from './app/http/auth/auth.module';
 import { HomepageModule } from './app/http/homepage/homepage.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { StoreOwnerModule } from './store-owner/store-owner.module';
+import { StoreOwnerModule } from './app/http/store-owner/store-owner.module';
 
 
 

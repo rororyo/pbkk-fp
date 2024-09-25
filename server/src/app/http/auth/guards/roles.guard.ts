@@ -19,7 +19,7 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = request.cookies['token'];
     const decoded = await this.jwtService.verify(token);
-    const user = await this.authService.findUser({ _id: decoded.id });
+    const user = await this.authService.findUser({ id: decoded.id });
     if (!user || !requiredRoles.includes(user.role)) {
       throw new ForbiddenException('You do not have access to this resource');
     }

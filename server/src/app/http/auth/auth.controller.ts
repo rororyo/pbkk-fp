@@ -1,4 +1,13 @@
-import { BadRequestException, Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RegisterDto } from 'src/app/validator/auth/auth.dto';
@@ -9,61 +18,65 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authService:AuthService,
-    private jwtService: JwtService
-  ){}
-  
+    private readonly authService: AuthService,
+    private jwtService: JwtService,
+  ) {}
+
   @UseGuards(JwtAuthGuard)
   @Get('current-user')
-  async fetchCurrentUser(@Req() req:Request){
+  async fetchCurrentUser(@Req() req: Request) {
     const cookie = req.cookies['token'];
     const data = await this.jwtService.verifyAsync(cookie);
-    const user = await this.authService.findUser({id:data.id});
-    if(!user) throw new BadRequestException('User not found');
+    const user = await this.authService.findUser({ id: data.id });
+    if (!user) throw new BadRequestException('User not found');
     return user;
   }
-  
+
   @Post('register')
-  async register(@Body() regsiterDto:RegisterDto){
+  async register(@Body() regsiterDto: RegisterDto) {
     await this.authService.register(regsiterDto);
     return {
-      status:'success',
+      status: 'success',
       message: 'Register Success',
-    }
+    };
   }
   @Post('login')
   async login(
-    @Body() loginDto:LoginDto,
-    @Res({passthrough:true}) response:Response
-  ){
-    const user = await this.authService.findUser({email:loginDto.email});
-    if(!user || !(await verify(user.password, loginDto.password))){
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const user = await this.authService.findUser({ email: loginDto.email });
+
+    if (!user || !(await verify(user.password, loginDto.password))) {
       throw new BadRequestException('Login Failed: Invalid credentials');
     }
-    const jwt = await this.jwtService.signAsync({id:user.id});
-    response.cookie('token',jwt,{
-      httpOnly:true,
-      secure:true,
-      sameSite:'none'
-    })
+
+    const jwt = await this.jwtService.signAsync({ id: user.id });
+
+    // Set the cookie with appropriate flags
+    response.cookie('token', jwt, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'none',
+    });
+
     return {
-      status:'success',
-      message:'Login Success',
-      token:jwt
-    }
+      status: 'success',
+      message: 'Login Success',
+    };
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(@Res({passthrough:true}) response:Response){
-    response.clearCookie('token',{
-      httpOnly:true,
-      secure:true,
-      sameSite:'none'
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('token', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
     });
     return {
-      status:'success',
-      message:'Logout Success'
-    }
+      status: 'success',
+      message: 'Logout Success',
+    };
   }
 }

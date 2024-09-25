@@ -16,7 +16,7 @@ export class HomepageService {
 
     // Create a query builder for more complex queries
     const query = this.itemRepository.createQueryBuilder('item')
-      .leftJoinAndSelect('item.category', 'category') // Join the category table
+      .leftJoinAndSelect('item.category', 'category') 
       .take(take) // Limit the number of results
       .skip(skip); // Skip the results based on the page number
 
@@ -27,8 +27,9 @@ export class HomepageService {
 
     // Add searching by item_name if search string is provided
     if (search) {
-      query.andWhere('item.item_name LIKE :search', { search: `%${search}%` });
+      query.andWhere('LOWER(item.item_name) LIKE LOWER(:search)', { search: `%${search}%` });
     }
+    
 
     // Execute the query and get the data and total count
     const [items, total] = await query.getManyAndCount();
