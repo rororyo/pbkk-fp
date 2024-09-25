@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
         <h2>Login</h2>
-        <form action="/login" method="POST">
-            @csrf <!-- Laravel-specific directive, remove it if you don't need CSRF protection -->
+        <form id="loginForm">
+            @csrf <!-- Laravel-specific directive -->
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
@@ -26,6 +28,43 @@
         </form>
     </div>
 
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:4000/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    }),
+                    credentials: 'include'  // Ensure that credentials (cookies) are included
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    // Redirect the user after a successful login
+                    window.location.href = '/'; // Change to your desired redirect route
+                } else {
+                    alert(result.message || 'Login failed');
+                }
+            } catch (error) {
+                alert(error.message);
+                alert('Error during login. Please try again later.');
+            }
+        });
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

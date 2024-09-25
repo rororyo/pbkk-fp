@@ -21,6 +21,16 @@
         .item-card {
             margin-bottom: 20px;
         }
+
+        .pagination {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -28,103 +38,153 @@
     <div class="container mt-5">
         <!-- Categories Section -->
         <h2 class="text-center mb-4">Categories</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <button class="btn btn-primary w-100">Electronics</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-primary w-100">Fashion</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-primary w-100">Home Appliances</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-primary w-100">Books</button>
-            </div>
+        <div class="row" id="category-section">
+            <!-- Categories will be populated here -->
         </div>
 
         <!-- Items Section -->
         <div class="category-section">
             <h3 class="text-center mb-4">Items</h3>
-            <div class="row">
-                <!-- Item Card 1 -->
-                <div class="col-md-4">
-                    <div class="card item-card">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Item 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Item 1</h5>
-                            <p class="card-text">$100</p>
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item Card 2 -->
-                <div class="col-md-4">
-                    <div class="card item-card">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Item 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Item 2</h5>
-                            <p class="card-text">$200</p>
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item Card 3 -->
-                <div class="col-md-4">
-                    <div class="card item-card">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Item 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Item 3</h5>
-                            <p class="card-text">$150</p>
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Item Card 4 -->
-                <div class="col-md-4">
-                    <div class="card item-card">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Item 4">
-                        <div class="card-body">
-                            <h5 class="card-title">Item 4</h5>
-                            <p class="card-text">$80</p>
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item Card 5 -->
-                <div class="col-md-4">
-                    <div class="card item-card">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Item 5">
-                        <div class="card-body">
-                            <h5 class="card-title">Item 5</h5>
-                            <p class="card-text">$120</p>
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item Card 6 -->
-                <div class="col-md-4">
-                    <div class="card item-card">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Item 6">
-                        <div class="card-body">
-                            <h5 class="card-title">Item 6</h5>
-                            <p class="card-text">$90</p>
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="row" id="item-section">
+                <!-- Items will be populated here -->
             </div>
         </div>
+
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination" id="pagination-section">
+                <!-- Pagination buttons will be populated here -->
+            </ul>
+        </nav>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const API_BASE_URL = 'http://localhost:4000/api/homepage';
+    let currentPage = 1;
+    let selectedCategory = null;
+    let searchQuery = null;
+
+    // Fetch categories from the backend
+    async function fetchCategories() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/categories`);
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                populateCategories(result.data);
+            }
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    }
+
+    // Fetch items with pagination, category filter, and search
+    async function fetchItems(page = 1) {
+        try {
+            const url = new URL(`${API_BASE_URL}/items`);
+            url.searchParams.append('page', page);
+            if (selectedCategory !== null) {
+                url.searchParams.append('category_id', selectedCategory);
+            }
+            if (searchQuery) {
+                url.searchParams.append('search', searchQuery);
+            }
+
+            const response = await fetch(url);
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                populateItems(result.data);
+                populatePagination(result.page, result.lastPage);
+            }
+        } catch (error) {
+            console.error('Error fetching items:', error);
+        }
+    }
+
+    // Populate categories into the DOM, including an "All" category
+    function populateCategories(categories) {
+        const categorySection = document.getElementById('category-section');
+        categorySection.innerHTML = '';
+
+        // Add the "All" category button
+        const allCategoryButton = document.createElement('div');
+        allCategoryButton.classList.add('col-md-3');
+        allCategoryButton.innerHTML = `
+            <button class="btn btn-primary w-100" onclick="setCategory(null)">All</button>
+        `;
+        categorySection.appendChild(allCategoryButton);
+
+        // Add the fetched categories
+        categories.forEach(category => {
+            const categoryButton = document.createElement('div');
+            categoryButton.classList.add('col-md-3');
+            categoryButton.innerHTML = `
+                <button class="btn btn-primary w-100" onclick="setCategory(${category.id})">${category.name}</button>
+            `;
+            categorySection.appendChild(categoryButton);
+        });
+    }
+
+    // Set the selected category and fetch items
+    function setCategory(categoryId) {
+        selectedCategory = categoryId;
+        fetchItems(1); // Reset to the first page when selecting a category
+    }
+
+    // Handle the search form submission
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        searchQuery = document.getElementById('search-input').value.trim().toLowerCase(); // Make it lowercase
+        fetchItems(1); // Reset to the first page on a new search
+    });
+
+    // Populate items into the DOM
+    function populateItems(items) {
+        const itemSection = document.getElementById('item-section');
+        itemSection.innerHTML = '';
+
+        items.forEach(item => {
+            const itemCard = document.createElement('div');
+            itemCard.classList.add('col-md-4');
+            itemCard.innerHTML = `
+                <div class="card item-card" onclick="window.location.href='/product/${item.id}'">
+                    <img src="${item.img_path}" class="card-img-top" alt="${item.item_name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${item.item_name}</h5>
+                        <p class="card-text">Rp${item.price}</p>
+                        <button class="btn btn-primary w-100">Add to Cart</button>
+                    </div>
+                </div>
+            `;
+            itemSection.appendChild(itemCard);
+        });
+    }
+
+    // Populate pagination buttons
+    function populatePagination(currentPage, lastPage) {
+        const paginationSection = document.getElementById('pagination-section');
+        paginationSection.innerHTML = '';
+
+        for (let page = 1; page <= lastPage; page++) {
+            const pageItem = document.createElement('li');
+            pageItem.classList.add('page-item');
+            if (page === currentPage) {
+                pageItem.classList.add('active');
+            }
+            pageItem.innerHTML = `
+                <button class="page-link" onclick="fetchItems(${page})">${page}</button>
+            `;
+            paginationSection.appendChild(pageItem);
+        }
+    }
+
+    // Initial fetch for categories and items (page 1)
+    fetchCategories();
+    fetchItems(1);
+</script>
+
 </body>
 </html>

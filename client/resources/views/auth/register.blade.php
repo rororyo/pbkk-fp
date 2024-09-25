@@ -9,8 +9,8 @@
 <body>
     <div class="container mt-5">
         <h2>Register</h2>
-        <form action="/register" method="POST">
-            @csrf <!-- Laravel-specific directive, remove it if you don't need CSRF protection -->
+        <form id="registerForm">
+            @csrf
 
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
@@ -31,6 +31,41 @@
         </form>
     </div>
 
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:4000/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    // Redirect to login page on success
+                    window.location.href = '/login';
+                } else {
+                    alert(result.message || 'Registration failed');
+                }
+            } catch (error) {
+                alert('Error during registration. Please try again later.');
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

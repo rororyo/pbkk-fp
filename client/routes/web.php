@@ -24,3 +24,12 @@ Route::get('/register', function () {
 Route::get('/login', function () {
     return view('auth.login');
 });
+
+Route::get('/product/{id}', function ($id) {
+    return view('product');
+});
+
+// Add this POST route for handling login requests
+Route::post('/login', function () {
+    return redirect('/');
+});
