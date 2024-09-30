@@ -3,7 +3,7 @@ import { StoreOwnerController } from './store-owner.controller';
 import { StoreOwnerService } from './store-owner.service';
 import { AuthModule } from '../auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Item } from 'src/database/entities/item.entity';
+import { Item } from 'database/entities/item.entity';
 
 @Module({
   imports: [AuthModule,

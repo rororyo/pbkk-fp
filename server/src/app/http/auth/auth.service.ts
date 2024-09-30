@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/database/entities/user.entity';
+import { User } from 'database/entities/user.entity';
 import { Repository } from 'typeorm';
 import {hash} from 'argon2'
 import { RegisterDto } from 'src/app/validator/auth/auth.dto';

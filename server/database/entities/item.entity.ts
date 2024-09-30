@@ -24,4 +24,7 @@ export class Item {
 
   @Column()
   price: number;
+
+  @Column("text", { array: true,nullable: true })
+  tags: string[];
 }

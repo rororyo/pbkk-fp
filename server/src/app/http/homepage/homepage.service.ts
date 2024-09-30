@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/database/entities/category.entity';
-import { Item } from 'src/database/entities/item.entity';
+import { Category } from 'database/entities/category.entity';
+import { Item } from 'database/entities/item.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -25,11 +25,18 @@ export class HomepageService {
       query.andWhere('item.category_id = :categoryId', { categoryId });
     }
 
-    // Add searching by item_name if search string is provided
+    // Add searching by item_name, description, or tags if search string is provided
     if (search) {
-      query.andWhere('LOWER(item.item_name) LIKE LOWER(:search)', { search: `%${search}%` });
+      const lowerSearch = `%${search.toLowerCase()}%`;
+
+      // Search in item_name, description, and tags using UNNEST() for the tags array
+      query.andWhere(
+        `(LOWER(item.item_name) LIKE :lowerSearch OR LOWER(item.description) LIKE :lowerSearch OR EXISTS (
+          SELECT 1 FROM UNNEST(item.tags) tag WHERE LOWER(tag) LIKE :lowerSearch
+        ))`,
+        { lowerSearch }
+      );
     }
-    
 
     // Execute the query and get the data and total count
     const [items, total] = await query.getManyAndCount();
