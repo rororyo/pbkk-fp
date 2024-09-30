@@ -12,7 +12,7 @@
     <div class="container mt-5">
         <h2>Login</h2>
         <form id="loginForm">
-            @csrf <!-- Laravel-specific directive -->
+            @csrf
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
@@ -45,15 +45,14 @@
                         email,
                         password
                     }),
-                    credentials: 'include'  // Ensure that credentials (cookies) are included
+                    credentials: 'include' 
                 });
 
                 const result = await response.json();
 
                 if (response.ok) {
                     alert(result.message);
-                    // Redirect the user after a successful login
-                    window.location.href = '/'; // Change to your desired redirect route
+                    window.location.href = '/'; 
                 } else {
                     alert(result.message || 'Login failed');
                 }

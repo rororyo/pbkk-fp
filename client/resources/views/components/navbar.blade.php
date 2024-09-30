@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navbar Example</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Custom styles to match the Tokopedia design */
+
         .navbar-custom {
             background-color: white;
             padding: 10px 30px;
@@ -92,7 +91,6 @@
 
 
 
-            <!-- Auth buttons (login/signup) -->
             <div class="d-flex">
                 <button class="btn btn-outline-primary me-2" onclick="location.href='/login'">Masuk</button>
                 <button class="btn btn-primary" onclick="location.href='/register'">Daftar</button>
@@ -100,7 +98,6 @@
         </div>
     </nav>
 
-    <!-- Bootstrap JS and Icon Library -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.js"></script>
 

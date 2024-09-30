@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tokoku</title>
-    
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -36,29 +34,22 @@
 <body>
     <x-navbar />
     <div class="container mt-5">
-        <!-- Categories Section -->
         <h2 class="text-center mb-4">Categories</h2>
         <div class="row" id="category-section">
-            <!-- Categories will be populated here -->
         </div>
 
-        <!-- Items Section -->
         <div class="category-section">
             <h3 class="text-center mb-4">Items</h3>
             <div class="row" id="item-section">
-                <!-- Items will be populated here -->
             </div>
         </div>
 
-        <!-- Pagination -->
         <nav>
             <ul class="pagination" id="pagination-section">
-                <!-- Pagination buttons will be populated here -->
             </ul>
         </nav>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     const API_BASE_URL = 'http://localhost:4000/api/homepage';
@@ -66,7 +57,6 @@
     let selectedCategory = null;
     let searchQuery = null;
 
-    // Fetch categories from the backend
     async function fetchCategories() {
         try {
             const response = await fetch(`${API_BASE_URL}/categories`);
@@ -80,7 +70,6 @@
         }
     }
 
-    // Fetch items with pagination, category filter, and search
     async function fetchItems(page = 1) {
         try {
             const url = new URL(`${API_BASE_URL}/items`);
@@ -103,21 +92,16 @@
             console.error('Error fetching items:', error);
         }
     }
-
-    // Populate categories into the DOM, including an "All" category
     function populateCategories(categories) {
         const categorySection = document.getElementById('category-section');
         categorySection.innerHTML = '';
 
-        // Add the "All" category button
         const allCategoryButton = document.createElement('div');
         allCategoryButton.classList.add('col-md-3');
         allCategoryButton.innerHTML = `
             <button class="btn btn-primary w-100" onclick="setCategory(null)">All</button>
         `;
         categorySection.appendChild(allCategoryButton);
-
-        // Add the fetched categories
         categories.forEach(category => {
             const categoryButton = document.createElement('div');
             categoryButton.classList.add('col-md-3');
@@ -128,17 +112,17 @@
         });
     }
 
-    // Set the selected category and fetch items
+
     function setCategory(categoryId) {
         selectedCategory = categoryId;
-        fetchItems(1); // Reset to the first page when selecting a category
+        fetchItems(1);
     }
 
-    // Handle the search form submission
+
     document.getElementById('search-form').addEventListener('submit', function (e) {
         e.preventDefault();
-        searchQuery = document.getElementById('search-input').value.trim().toLowerCase(); // Make it lowercase
-        fetchItems(1); // Reset to the first page on a new search
+        searchQuery = document.getElementById('search-input').value.trim().toLowerCase(); 
+        fetchItems(1); 
     });
 
     // Populate items into the DOM
