@@ -39,7 +39,7 @@
         </div>
 
         <div class="category-section">
-            <h3 class="text-center mb-4">Items</h3>
+            <h3 class="text-center mb-4">Items in <span id="current-category">All Categories</span></h3>
             <div class="row" id="item-section">
             </div>
         </div>
@@ -56,7 +56,9 @@
     let currentPage = 1;
     let selectedCategory = null;
     let searchQuery = null;
+    let categoryNames = {};  // Initialize an empty object to store category names
 
+    // Fetch categories from the API
     async function fetchCategories() {
         try {
             const response = await fetch(`${API_BASE_URL}/categories`);
@@ -64,12 +66,17 @@
 
             if (result.status === 'success') {
                 populateCategories(result.data);
+                // Store category names in the categoryNames object
+                result.data.forEach(category => {
+                    categoryNames[category.id] = category.name;
+                });
             }
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
     }
 
+    // Fetch items from the API
     async function fetchItems(page = 1) {
         try {
             const url = new URL(`${API_BASE_URL}/items`);
@@ -92,6 +99,8 @@
             console.error('Error fetching items:', error);
         }
     }
+
+    // Populate categories into the DOM
     function populateCategories(categories) {
         const categorySection = document.getElementById('category-section');
         categorySection.innerHTML = '';
@@ -102,6 +111,7 @@
             <button class="btn btn-primary w-100" onclick="setCategory(null)">All</button>
         `;
         categorySection.appendChild(allCategoryButton);
+        
         categories.forEach(category => {
             const categoryButton = document.createElement('div');
             categoryButton.classList.add('col-md-3');
@@ -112,13 +122,19 @@
         });
     }
 
-
+    // Set the selected category and update the page
     function setCategory(categoryId) {
         selectedCategory = categoryId;
+        
+        // Update the displayed category name
+        const categoryName = categoryId ? categoryNames[categoryId] : 'All Categories';
+        document.getElementById('current-category').innerText = categoryName;
+
+        // Fetch the items for the selected category
         fetchItems(1);
     }
 
-
+    // Search form functionality
     document.getElementById('search-form').addEventListener('submit', function (e) {
         e.preventDefault();
         searchQuery = document.getElementById('search-input').value.trim().toLowerCase(); 
@@ -168,7 +184,7 @@
     // Initial fetch for categories and items (page 1)
     fetchCategories();
     fetchItems(1);
-</script>
+    </script>
 
 </body>
 </html>
