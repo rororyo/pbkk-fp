@@ -3,7 +3,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AuthPage from "../pages/auth/AuthPage";
 import HomePage from "../pages/user/HomePage";
-import DetailItemPage from "../pages/user/DetailItemPage";
+import ProductDetailPage from "../pages/user/ProductDetailPage";
 import PrivateRoute from "../components/PrivateRoute";
 
 // Main Routes component for the application
@@ -23,10 +23,10 @@ const AppRoutes: React.FC = () => {
         }
       />
       <Route
-        path="/item/:id"
+        path="/items/:id"
         element={
           <PrivateRoute>
-            <DetailItemPage />
+            <ProductDetailPage />
           </PrivateRoute>
         }
       />

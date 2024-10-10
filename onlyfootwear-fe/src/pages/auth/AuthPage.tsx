@@ -21,12 +21,12 @@ const AuthPage: React.FC = () => {
       setTimeout(() => {
         setToastMessage(null);
         navigate("/");
-      }, 3000);
+      }, 1000);
     } else {
       setToastMessage("Invalid email or password!");
       setTimeout(() => {
         setToastMessage(null);
-      }, 2000);
+      }, 1000);
     }
   };
 
