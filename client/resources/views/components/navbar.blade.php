@@ -130,7 +130,7 @@
         formData.append('file', imageFile);
 
         try {
-            const response = await fetch('https://detect.roboflow.com/pbkk/2?api_key=n3srtvio0FyZNRt19mra', {
+            const response = await fetch('https://detect.roboflow.com/pbkk-footwear/1?api_key=n3srtvio0FyZNRt19mra', {
                 method: 'POST',
                 body: formData
             });
@@ -142,16 +142,15 @@
                 const detectedClass = data.predictions[0].class;
 
                 const categoryMap = {
-                    "baju": 2,
-                    "celana": 2,   
-                    "jaket": 2,
-                    "kursi": 3,    
-                    "meja": 3,
-                    "sepatu": 2,
-                    "sofa": 3,
+                    "Sandals": 1,
+                    "Sneakers": 2,   
+                    "Crocs": 3,
+                    "High Heels": 4,    
+                    "Boots": 5,
                 };
 
-                const categoryId = categoryMap[detectedClass.toLowerCase()];
+                const categoryId = categoryMap[detectedClass];
+                console.log(categoryId);
                 if (categoryId) {
                     setCategory(categoryId);
                 } else {
