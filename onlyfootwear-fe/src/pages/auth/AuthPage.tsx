@@ -12,16 +12,43 @@ const AuthPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (email && password) {
-      login();
-      setToastMessage("Login successful!");
-      setTimeout(() => {
-        setToastMessage(null);
-        navigate("/");
-      }, 1000);
+      try {
+        const response = await fetch("http://localhost:4000/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          login();
+          if(data){
+            sessionStorage.setItem('isLogin', 'true');
+          }
+          setToastMessage("Login successful!");
+          setTimeout(() => {
+            setToastMessage(null);
+            navigate("/");
+          }, 1000);
+        } else {
+          setToastMessage("Login failed. Invalid email or password!");
+          setTimeout(() => {
+            setToastMessage(null);
+          }, 1000);
+        }
+      } catch (e) {
+        setToastMessage("An error occurred. Please try again later.");
+        console.log(e);
+        setTimeout(() => {
+          setToastMessage(null);
+        }, 1000);
+      }
     } else {
       setToastMessage("Invalid email or password!");
       setTimeout(() => {
