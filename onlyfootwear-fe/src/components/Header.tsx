@@ -7,6 +7,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ setSearchTerm, handleImageSearch }) => {
   const [searchTermInput, setSearchTermInput] = useState("");
+  const [imageSearchLoading, setImageSearchLoading] = useState(false);
 
   // Handle input search
   const handleSearch = (e: React.FormEvent) => {
@@ -15,10 +16,36 @@ const Header: React.FC<HeaderProps> = ({ setSearchTerm, handleImageSearch }) => 
   };
 
   // Handle search by image
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      handleImageSearch(file); // Kirim file ke komponen HomePage
+      setImageSearchLoading(true); // Set loading state true ketika gambar di-upload
+      try {
+        // Create form data
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Kirim ke Roboflow API
+        const response = await fetch('https://detect.roboflow.com/pbkk-footwear/1?api_key=n3srtvio0FyZNRt19mra', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        console.log('Full Response:', data);
+
+        if (data && data.predictions && data.predictions.length > 0) {
+          const detectedClass = data.predictions[0].class;
+          console.log('Detected class:', detectedClass);
+          setSearchTerm(detectedClass); // Gunakan kelas yang terdeteksi sebagai search term
+        } else {
+          console.log('No objects detected');
+        }
+      } catch (error) {
+        console.error('Error during image search:', error);
+      } finally {
+        setImageSearchLoading(false); // Set loading state false setelah upload selesai
+      }
     }
   };
 
@@ -43,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ setSearchTerm, handleImageSearch }) => 
             className="hidden"
             onChange={handleImageUpload}
           />
-          Search by Image
+          {imageSearchLoading ? "Searching..." : "Search by Image"}
         </label>
       </div>
     </header>
