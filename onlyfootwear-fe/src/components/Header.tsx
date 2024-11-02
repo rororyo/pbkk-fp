@@ -12,20 +12,19 @@ const Header: React.FC<HeaderProps> = ({ setSearchTerm, handleImageSearch }) => 
   // Handle input search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setSearchTerm(searchTermInput); // Kirim search term ke komponen HomePage
+    setSearchTerm(searchTermInput);
   };
 
   // Handle search by image
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      setImageSearchLoading(true); // Set loading state true ketika gambar di-upload
+      setImageSearchLoading(true);
       try {
-        // Create form data
+
         const formData = new FormData();
         formData.append('file', file);
 
-        // Kirim ke Roboflow API
         const response = await fetch('https://detect.roboflow.com/pbkk-footwear/1?api_key=n3srtvio0FyZNRt19mra', {
           method: 'POST',
           body: formData
@@ -37,14 +36,14 @@ const Header: React.FC<HeaderProps> = ({ setSearchTerm, handleImageSearch }) => 
         if (data && data.predictions && data.predictions.length > 0) {
           const detectedClass = data.predictions[0].class;
           console.log('Detected class:', detectedClass);
-          setSearchTerm(detectedClass); // Gunakan kelas yang terdeteksi sebagai search term
+          setSearchTerm(detectedClass);
         } else {
           console.log('No objects detected');
         }
       } catch (error) {
         console.error('Error during image search:', error);
       } finally {
-        setImageSearchLoading(false); // Set loading state false setelah upload selesai
+        setImageSearchLoading(false);
       }
     }
   };
