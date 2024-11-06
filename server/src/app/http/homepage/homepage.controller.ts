@@ -1,5 +1,8 @@
-import { Body, Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { HomepageService } from './homepage.service';
+import { diskStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
+import * as path from 'path';
 
 @Controller('api/homepage')
 export class HomepageController {
@@ -33,6 +36,7 @@ export class HomepageController {
       data:data
     }
   }
+
   @Get('item/:id')
   async getItemById(
     @Param('id') itemId:number
@@ -42,6 +46,38 @@ export class HomepageController {
       status:'success',
       message:'Item fetched succesfully',
       data:data
+    }
+  }
+  @Post('foot-size')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: path.resolve(__dirname, '../../../../../public/images/foot-uploads'),
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, file.fieldname + '-' + uniqueSuffix);
+        }
+      })
+    })
+  )
+  async postFootPicture(@UploadedFile() file: Express.Multer.File, @Body('gender') gender: string): Promise<any> {
+    if (!file) {
+      console.error('No file uploaded');
+      throw new Error('No file uploaded');
+    }
+    
+    try {
+      const footSize = await this.homepageService.postFootPicture(file.filename, gender);
+      console.log('Foot size successfully calculated:', footSize);
+
+      return {
+        status: 'success',
+        message: 'Foot size successfully calculated',
+        data: footSize,
+      };
+    } catch (error) {
+      console.error('Error in calculating foot size:', error);
+      throw error;
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { StoreOwnerController } from './store-owner.controller';
-import { StoreOwnerService } from './store-owner.service';
+import { StoreOwnerController } from './admin.controller';
+import { adminService } from './admin.service';
 import { AuthModule } from '../auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from 'database/entities/item.entity';
@@ -12,6 +12,6 @@ import { Item } from 'database/entities/item.entity';
     ])
   ],
   controllers: [StoreOwnerController],
-  providers: [StoreOwnerService]
+  providers: [adminService]
 })
-export class StoreOwnerModule {}
+export class adminModule {}

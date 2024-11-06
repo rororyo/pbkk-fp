@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { spawn } from 'child_process';
 import { Category } from 'database/entities/category.entity';
 import { Item } from 'database/entities/item.entity';
 import { Repository } from 'typeorm';
@@ -57,6 +58,36 @@ export class HomepageService {
     const item = await this.itemRepository.findOne({where:{id}});
     if(!item) throw new NotFoundException('Item not found');
     return item
-
   }
+  async postFootPicture(imgName: string, gender: string): Promise<{ footSize: number, shoeSize: object }> {
+    return new Promise((resolve, reject) => {
+        const python = spawn('python', ['src/utils/foot-detection-utils/main.py', imgName, gender]); // Pass the image path and gender as arguments
+        let output = '';
+
+        python.stdout.on('data', (data) => {
+            output += data.toString();
+        });
+
+        python.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+        });
+
+        python.on('close', (code) => {
+            if (code !== 0) {
+                reject(`Python script exited with code ${code}`);
+            } else {
+                try {
+                    const result = JSON.parse(output.trim());  
+                    resolve({
+                        footSize: result.foot_length,  
+                        shoeSize: result  
+                    });
+                } catch (err) {
+                    reject(`Error parsing Python output: ${err}`);
+                }
+            }
+        });
+    });
+}
+
 }

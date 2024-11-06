@@ -5,7 +5,7 @@ import { AuthModule } from './app/http/auth/auth.module';
 import { HomepageModule } from './app/http/homepage/homepage.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { StoreOwnerModule } from './app/http/store-owner/store-owner.module';
+import { adminModule } from './app/http/admin/admin.module';
 
 
 
@@ -23,7 +23,7 @@ import { StoreOwnerModule } from './app/http/store-owner/store-owner.module';
       entities: process.env.NODE_ENV === 'PRODUCTION' ? ['dist/database/entities/*.entity{.ts,.js}'] :  ['src/database/entities/*.entity.ts'],
       synchronize: true,
     }),
-    StoreOwnerModule
+    adminModule
   ],
   controllers: [AppController],
   providers: [AppService],

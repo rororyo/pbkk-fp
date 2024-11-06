@@ -4,7 +4,7 @@ import { Item } from 'database/entities/item.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class StoreOwnerService {
+export class adminService {
   constructor(
     @InjectRepository(Item) private itemRepository: Repository<Item>
   ) {}
@@ -20,7 +20,7 @@ export class StoreOwnerService {
     // Create a new item, with category_id directly assigned
     const item = this.itemRepository.create({
       item_name: name,
-      category: { id: category_id },  // Only reference the category_id
+      category: { id: category_id },  
       description: description,
       img_path: img_path,
       price: price,
@@ -32,6 +32,5 @@ export class StoreOwnerService {
 
     if (!data) throw new NotFoundException('Item could not be saved');
 
-    return data; // Optionally return the saved item
-  }
+    return data;  }
 }

@@ -2,16 +2,16 @@ import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { StoreOwnerService } from './store-owner.service';
+import { adminService } from './admin.service';
 
 @Controller('api/store-owner')
 export class StoreOwnerController {
   constructor(
-    private readonly storeOwnerService:StoreOwnerService
+    private readonly storeOwnerService:adminService
   ) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('store-owner')
+  @Roles('admin')
   @Post('item')
   async postStoreItem(
     @Body('item_name') name:string,
