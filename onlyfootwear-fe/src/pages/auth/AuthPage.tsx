@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../states/AuthContext";
 
 import styled from "styled-components";
 import Toast from "../../components/Toast";
@@ -9,7 +8,6 @@ const AuthPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toastMessage, setToastMessage] = useState<string | null>(null); 
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -27,7 +25,6 @@ const AuthPage: React.FC = () => {
 
         if (response.ok) {
           const data = await response.json();
-          login();
           if(data){
             sessionStorage.setItem('isLogin', 'true');
           }

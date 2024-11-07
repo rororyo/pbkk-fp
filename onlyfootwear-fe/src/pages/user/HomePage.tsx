@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import HeroSection from '../../components/HeroSection';
 import ProductList from '../../components/ProductList';
 import Footer from '../../components/Footer';
+import LogoSection from '../../components/LogoSection';
 
 // Define the type for the individual item in the API response
 interface ProductItem {
@@ -93,6 +94,9 @@ const HomePage: React.FC = () => {
     <div>
       <Header setSearchTerm={setSearchTerm} handleImageSearch={handleImageSearch} />
       <HeroSection />
+      <div className='mt-3 mb-2'>
+        <LogoSection />
+      </div>
       
       {/* Category Filter Dropdown */}
       <div className="category-filter">
