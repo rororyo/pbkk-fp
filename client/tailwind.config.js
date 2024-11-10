@@ -5,8 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        '17': '150px', // Ganti '6rem' dengan ukuran yang sesuai
+      },
+      height: {
+        '17': '150px', // Ganti '6rem' dengan ukuran yang sesuai
+      },
+    },
   },
   plugins: [],
 }
-

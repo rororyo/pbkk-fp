@@ -34,7 +34,7 @@ const Header: React.FC = () => {
         formData.append('file', file);
 
         const response = await fetch(
-          'https://detect.roboflow.com/pbkk-footwear/1?api_key=n3srtvio0FyZNRt19mra',
+          `${import.meta.env.VITE_ROBOFLOW_API_URL}`,
           { method: 'POST', body: formData }
         );
 
@@ -44,6 +44,7 @@ const Header: React.FC = () => {
           goToCategory(detectedClass);
         } else {
           console.log('No objects detected');
+          alert('No objects detected');
         }
       } catch (error) {
         console.error('Error during image search:', error);
@@ -137,37 +138,53 @@ const Header: React.FC = () => {
           </div>
         )}
   
-        {menuOpen && (
-          <div className="absolute top-16 left-0 right-0 flex flex-col space-y-4 p-4 bg-gray-50 border-t md:hidden z-50">
-            <div className="flex justify-center items-center space-x-6 p-4">
-              <label className="relative cursor-pointer">
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageUpload}
-                />
-                <i className="fas fa-camera text-xl text-gray-700 hover:text-black transition-all"></i>
-              </label>
-              <label className="relative cursor-pointer">
-                <i className="fas fa-ruler-combined text-xl text-gray-700 hover:text-black transition-all" onClick={() => navigate('/foot-measurement')}></i>
-              </label>
-              <div className="flex space-x-6 text-gray-700">
-                <i className="fas fa-user text-xl hover:text-black transition-all" onClick={() => navigate('/auth')}></i>
-                <i className="fas fa-heart text-xl hover:text-black transition-all" onClick={() => navigate('/favourites')}></i>
-                <i className="fas fa-shopping-bag text-xl hover:text-black transition-all" onClick={() => navigate('/cart')}></i>
-              </div>
-            </div>
-            
-            <a href="#" className="text-gray-700 hover:text-black">New</a>
-            <a href="#" className="text-gray-700 hover:text-black">Sandals</a>
-            <a href="#" className="text-gray-700 hover:text-black">Sneakers</a>
-            <a href="#" className="text-gray-700 hover:text-black">Crocs</a>
-            <a href="#" className="text-gray-700 hover:text-black">High Heels</a>
-            <a href="#" className="text-gray-700 hover:text-black">Boots</a>
-            <a href="#" className="text-red-500 font-bold hover:text-red-700">SALE</a>
-          </div>
-        )}
+  {menuOpen && (
+  <div className="absolute top-16 left-0 right-0 flex flex-col space-y-4 p-4 bg-gray-50 border-t md:hidden z-50">
+    <div className="flex justify-center items-center space-x-6 p-4">
+      <label className="relative cursor-pointer">
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageUpload}
+        />
+        <i className="fas fa-camera text-xl text-gray-700 hover:text-black transition-all"></i>
+      </label>
+      <label className="relative cursor-pointer">
+        <i
+          className="fas fa-ruler-combined text-xl text-gray-700 hover:text-black transition-all"
+          onClick={() => navigate('/foot-measurement')}
+        ></i>
+      </label>
+      <div className="flex space-x-6 text-gray-700">
+        <i className="fas fa-user text-xl hover:text-black transition-all" onClick={() => navigate('/auth')}></i>
+        <i className="fas fa-heart text-xl hover:text-black transition-all" onClick={() => navigate('/favourites')}></i>
+        <i className="fas fa-shopping-bag text-xl hover:text-black transition-all" onClick={() => navigate('/cart')}></i>
+      </div>
+    </div>
+
+    <div className="flex flex-col space-y-2">
+      <a href="#" className="text-gray-700 hover:text-black">New</a>
+      <button onClick={() => goToCategory('sandals')} className="text-gray-700 hover:text-black text-left">
+        Sandals
+      </button>
+      <button onClick={() => goToCategory('sneakers')} className="text-gray-700 hover:text-black text-left">
+        Sneakers
+      </button>
+      <button onClick={() => goToCategory('crocs')} className="text-gray-700 hover:text-black text-left">
+        Crocs
+      </button>
+      <button onClick={() => goToCategory('high heels')} className="text-gray-700 hover:text-black text-left">
+        High Heels
+      </button>
+      <button onClick={() => goToCategory('boots')} className="text-gray-700 hover:text-black text-left">
+        Boots
+      </button>
+      <a href="#" className="text-red-500 font-bold hover:text-red-700">SALE</a>
+    </div>
+  </div>
+)}
+
   
         <nav className="flex-wrap justify-center space-x-3 p-2 border-t hidden md:flex">
           <a href="#" className="text-gray-700 hover:text-black">New</a>
