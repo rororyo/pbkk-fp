@@ -30,7 +30,7 @@ def find_shoe_size(foot_length, gender="Women"):
     if gender == "Women":
         chart = women_shoe_chart
     elif gender == "Men":
-        chart = men_shoe_chart
+        dahart = men_shoe_chart
     else:
         raise ValueError("Gender must be 'Women' or 'Men'")
     
