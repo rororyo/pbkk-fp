@@ -19,12 +19,14 @@ import { adminModule } from './app/http/admin/admin.module';
           type: 'postgres',
           url: isProduction ? process.env.DATABASE_URL : undefined,
           entities: isProduction
-            ? ['dist/database/entities/*.entity{.ts,.js}']
-            : ['src/database/entities/*.entity.ts'],
+            ? [__dirname + '/dist/database/entities/*.entity.js']  // Use the compiled JS files in production
+            : [__dirname + '/src/database/entities/*.entity.ts'],   // Use the TS files in development
           synchronize: true,
           ssl: isProduction
-            ? (process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false)
-            : false, // Use SSL only if explicitly enabled via an environment variable
+            ? process.env.DB_SSL === 'true' 
+              ? { rejectUnauthorized: false } 
+              : false
+            : false,
           ...(isProduction
             ? {}
             : {
@@ -43,4 +45,3 @@ import { adminModule } from './app/http/admin/admin.module';
   providers: [AppService],
 })
 export class AppModule {}
-
