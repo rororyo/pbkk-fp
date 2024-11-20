@@ -63,6 +63,7 @@ export class AuthController {
     return {
       status: 'success',
       message: 'Login Success',
+      token: jwt,
     };
   }
 
