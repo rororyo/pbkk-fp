@@ -19,8 +19,8 @@ import { adminModule } from './app/http/admin/admin.module';
           type: 'postgres',
           url: isProduction ? process.env.DATABASE_URL : undefined,
           entities: isProduction
-          ? [process.cwd() + '/dist/database/entities/*.entity.js']
-          : [process.cwd() + '/src/database/entities/*.entity.ts'],
+            ? [process.cwd() + '/database/entities/*.entity.js']
+            : [process.cwd() + '/database/entities/*.entity.ts'],
           synchronize: true,
           ssl: isProduction
             ? process.env.DB_SSL === 'true' 

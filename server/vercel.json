@@ -12,5 +12,5 @@
       "dest": "src/main.ts"
     }
   ],
-  "buildCommand": "npm run build && cp -r src/database/entities dist/database/entities"
+  "buildCommand": "npm run build && cp -r /database/entities dist/database/entities"
 }
