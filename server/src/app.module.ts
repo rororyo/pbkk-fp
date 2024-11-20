@@ -19,8 +19,8 @@ import { adminModule } from './app/http/admin/admin.module';
           type: 'postgres',
           url: isProduction ? process.env.DATABASE_URL : undefined,
           entities: isProduction
-            ? [__dirname + '/dist/database/entities/*.entity.js']  // Use the compiled JS files in production
-            : [__dirname + '/src/database/entities/*.entity.ts'],   // Use the TS files in development
+          ? [process.cwd() + '/dist/database/entities/*.entity.js']
+          : [process.cwd() + '/src/database/entities/*.entity.ts'],
           synchronize: true,
           ssl: isProduction
             ? process.env.DB_SSL === 'true' 
