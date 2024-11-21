@@ -59,7 +59,7 @@ const Header: React.FC = () => {
       <div className="justify-between items-center p-4 bg-gray-100 border-b hidden md:flex"></div>
       <header className="flex flex-col bg-white shadow-sm">
         <div className="flex items-center justify-between p-4 border-b">
-          <h1 className="text-2xl font-bold text-gray-700 md:ml-auto" onClick={() => navigate('/')}>OnlyFootwear</h1>
+          <h1 className="text-2xl font-bold text-gray-700 md:ml-auto" onClick={() => navigate('/')}>Setapak</h1>
           
           {/* Ikon Search dan Hamburger untuk layar kecil */}
           <div className="flex items-center space-x-4 md:hidden">
