@@ -39,7 +39,7 @@ const Header: React.FC = () => {
         );
 
         const data = await response.json();
-        if (data && data.predictions && data.predictions.length > 0) {
+        if (data && data.predictions && data.predictions.length > 0 && data.predictions[0].confidence >= 0.3) {
           const detectedClass = data.predictions[0].class;
           goToCategory(detectedClass);
         } else {
