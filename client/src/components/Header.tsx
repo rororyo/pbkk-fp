@@ -58,7 +58,11 @@ const Header: React.FC = () => {
 
   return (
     <header className="flex flex-col">
-      <div className="justify-between items-center p-4 bg-gray-100 border-b hidden md:flex"></div>
+      <div className="flex justify-center items-center p-4 bg-red-700 border-b">
+        <span className="text-sm text-white text-center break-words">
+          ⚠️Website ini dibuat sebagai bagian dari tugas mata kuliah Pemrograman Berbasis Kerangka Kerja ITS dan bukan merupakan platform marketplace yang berfungsi secara nyata⚠️
+        </span>
+      </div>
       <header className="flex flex-col bg-white shadow-sm">
         <div className="flex items-center justify-between p-4 border-b">
           <h1 className="text-2xl font-bold text-gray-700 md:ml-auto" onClick={() => navigate('/')}>Setapak</h1>
@@ -121,7 +125,7 @@ const Header: React.FC = () => {
         </div>
   
         {searchBarVisible && (
-          <div className="absolute top-16 left-0 right-0 p-4 border-t bg-gray-50 md:hidden">
+          <div className="absolute top-44 left-0 right-0 p-4 border-t bg-gray-50 md:hidden">
             <form className="flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm" onSubmit={handleSearch}>
               <input
                 type="text"
@@ -141,7 +145,7 @@ const Header: React.FC = () => {
         )}
   
   {menuOpen && (
-  <div className="absolute top-16 left-0 right-0 flex flex-col space-y-4 p-4 bg-gray-50 border-t md:hidden z-50">
+  <div className="absolute top-44 left-0 right-0 flex flex-col space-y-4 p-4 bg-gray-50 border-t md:hidden z-50">
     <div className="flex justify-center items-center space-x-6 p-4">
       <label className="relative cursor-pointer">
         <input
