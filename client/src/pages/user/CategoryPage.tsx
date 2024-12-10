@@ -4,14 +4,17 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
 import { Product } from '../../types/interfaces';
+import Loader from '../../components/Loader';
 
 const CategoryPage: React.FC = () => {
   const { category } = useParams<{ category: string }>();
   const [, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // Track loading state
 
   useEffect(() => {
     // Fetch all items from the API
+    setLoading(true); // Set loading to true when the request starts
     fetch(`${import.meta.env.VITE_HOMEPAGE_API_URL}/items`)
       .then((response) => response.json())
       .then((data) => {
@@ -28,7 +31,8 @@ const CategoryPage: React.FC = () => {
           setFilteredProducts(items);
         }
       })
-      .catch((error) => console.error('Error fetching data:', error));
+      .catch((error) => console.error('Error fetching data:', error))
+      .finally(() => setLoading(false)); // Set loading to false when the data is fetched or an error occurs
   }, [category]);
 
   return (
@@ -36,7 +40,10 @@ const CategoryPage: React.FC = () => {
       <Header />
       <div className="flex-1 p-8">
         <h1 className="text-2xl font-bold mb-4">Results for: {category}</h1>
-        {filteredProducts.length > 0 ? (
+        
+        {loading ? (
+          <Loader />
+        ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
