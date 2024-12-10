@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
+import { Cart } from './cart.entity';
 
 @Entity()
 export class Item {
@@ -27,4 +28,7 @@ export class Item {
 
   @Column("text", { array: true,nullable: true })
   tags: string[];
+
+  @OneToMany(() => Cart, (cart) => cart.item) // Define relationship to Cart
+  carts: Cart[];
 }

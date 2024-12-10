@@ -6,6 +6,7 @@ import { HomepageModule } from './app/http/homepage/homepage.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { adminModule } from './app/http/admin/admin.module';
+import { CartModule } from './app/http/cart/cart.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { adminModule } from './app/http/admin/admin.module';
           url: isProduction ? process.env.DATABASE_URL : undefined,
           entities: isProduction
             ? ['dist/database/entities/*.entity{.ts,.js}']
-            : ['src/database/entities/*.entity.ts'],
+            : ['database/entities/*.entity.ts'],
           synchronize: true,
           ssl: isProduction
             ? (process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false)
@@ -38,6 +39,7 @@ import { adminModule } from './app/http/admin/admin.module';
       },
     }),
     adminModule,
+    CartModule
   ],
   controllers: [AppController],
   providers: [AppService],
