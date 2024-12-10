@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <div className="w-full md:w-1/3 mb-4">
           <h4 className="font-bold text-lg">About</h4>
           <ul className="mt-2">
-            <li><a href="/OnlyFootwear" className="block hover:text-blue-600">OnlyFootwear</a></li>
+            <li><a href="/Setapak" className="block hover:text-blue-600">Setapak</a></li>
             <li><a href="/terms" className="block hover:text-blue-600">Terms & Conditions</a></li>
             <li><a href="/privacy" className="block hover:text-blue-600">Privacy Policy</a></li>
           </ul>
@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
           </p>
         </div>
       </div>
-      <p className="text-center mt-6 text-sm">&copy; {currentYear} OnlyFootwear. All Rights Reserved.</p>
+      <p className="text-center mt-6 text-sm">&copy; {currentYear} Setapak. All Rights Reserved.</p>
     </footer>
   );
 };
