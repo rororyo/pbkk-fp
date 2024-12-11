@@ -14,6 +14,7 @@ import ProductsPage from "../pages/admin/ProductsPage";
 import ReportsPage from "../pages/admin/ReportsPage";
 import CategoryPage from "../pages/user/CategoryPage";
 import FavItemPage from "../pages/user/FavItemPage";
+import ProfilePage from "../pages/user/ProfilePage";
 
 // Main Routes component for the application
 const AppRoutes: React.FC = () => {
@@ -31,6 +32,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/reports" element={<ReportsPage />} />
       <Route path="/categories/:category" element={<CategoryPage />} />
       <Route path="/favourites" element={<FavItemPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
 
       {/* Protected Routes */}
       <Route

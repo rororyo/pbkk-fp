@@ -8,6 +8,15 @@ const Header: React.FC = () => {
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const navigate = useNavigate();
 
+  const handleNavigation = () => {
+    const authToken = sessionStorage.getItem('auth_token');
+    if (authToken) {
+      navigate('/profile');
+    } else {
+      navigate('/auth');
+    }
+  };
+
   const togglemenu = () => {
     setmenuOpen(!menuOpen);
   };
@@ -117,7 +126,7 @@ const Header: React.FC = () => {
             </label>
   
             <div className="flex space-x-6 text-gray-700">
-              <i className="fas fa-user text-xl hover:text-black transition-all" onClick={() => navigate('/auth')}></i>
+              <i className="fas fa-user text-xl hover:text-black transition-all" onClick={handleNavigation}></i>
               <i className="fas fa-heart text-xl hover:text-black transition-all" onClick={() => navigate('/favourites')}></i>
               <i className="fas fa-shopping-bag text-xl hover:text-black transition-all" onClick={() => navigate('/cart')}></i>
             </div>
@@ -163,7 +172,7 @@ const Header: React.FC = () => {
         ></i>
       </label>
       <div className="flex space-x-6 text-gray-700">
-        <i className="fas fa-user text-xl hover:text-black transition-all" onClick={() => navigate('/auth')}></i>
+        <i className="fas fa-user text-xl hover:text-black transition-all" onClick={handleNavigation}></i>
         <i className="fas fa-heart text-xl hover:text-black transition-all" onClick={() => navigate('/favourites')}></i>
         <i className="fas fa-shopping-bag text-xl hover:text-black transition-all" onClick={() => navigate('/cart')}></i>
       </div>
