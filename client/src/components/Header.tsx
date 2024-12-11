@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const Header: React.FC = () => {
   const [searchTermInput, setSearchTermInput] = useState("");
-  const [, setImageSearchLoading] = useState(false);
+  const [imageSearchLoading, setImageSearchLoading] = useState(false);
   const [menuOpen, setmenuOpen] = useState(false);
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const navigate = useNavigate();
@@ -47,24 +48,36 @@ const Header: React.FC = () => {
           { method: 'POST', body: formData }
         );
 
-        const data = await response.json();
-        if (data && data.predictions && data.predictions.length > 0 && data.predictions[0].confidence >= 0.3) {
-          let detectedClass = data.predictions[0].class;
-          detectedClass = detectedClass.replace(/-/g, ' ');
-          goToCategory(detectedClass);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
         }
-         else {
-          console.log('No objects detected');
-          alert('No objects detected');
+
+        const text = await response.text(); // Get raw response text
+
+        // Check if the response is empty or not valid JSON
+        if (text) {
+          const data = JSON.parse(text);
+          if (data && data.predictions && data.predictions.length > 0 && data.predictions[0].confidence >= 0.3) {
+            let detectedClass = data.predictions[0].class;
+            detectedClass = detectedClass.replace(/-/g, ' ');
+            goToCategory(detectedClass);
+          } else {
+            console.log('No objects detected');
+            alert('No objects detected');
+          }
+        } else {
+          console.log('Empty response body');
+          alert('No data returned from the API');
         }
       } catch (error) {
         console.error('Error during image search:', error);
+        alert('Error during image search. Please try again.');
       } finally {
         setImageSearchLoading(false);
       }
     }
   };
-
+  
   return (
     <header className="flex flex-col">
       <div className="flex justify-center items-center p-4 bg-red-700 border-b">
@@ -151,7 +164,6 @@ const Header: React.FC = () => {
             </form>
           </div>
         )}
-  
   {menuOpen && (
   <div className="absolute top-44 left-0 right-0 flex flex-col space-y-4 p-4 bg-gray-50 border-t md:hidden z-50">
     <div className="flex justify-center items-center space-x-6 p-4">
@@ -198,6 +210,11 @@ const Header: React.FC = () => {
   </div>
 )}
 
+        {imageSearchLoading && (
+          <div className="absolute inset-0 z-50 flex justify-center items-center bg-gray-500 bg-opacity-50">
+            <Loader />
+          </div>
+        )}
   
         <nav className="flex-wrap justify-center space-x-3 p-2 border-t hidden md:flex">
           <a href="#" className="text-gray-700 hover:text-black">New</a>

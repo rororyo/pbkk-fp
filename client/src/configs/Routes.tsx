@@ -14,6 +14,7 @@ import ProductsPage from "../pages/admin/ProductsPage";
 import ReportsPage from "../pages/admin/ReportsPage";
 import CategoryPage from "../pages/user/CategoryPage";
 import ProfilePage from "../pages/user/ProfilePage";
+import NotFound from "../pages/NotFound";
 
 // Main Routes component for the application
 const AppRoutes: React.FC = () => {
@@ -46,6 +47,7 @@ const AppRoutes: React.FC = () => {
             <ProductDetailPage />
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
