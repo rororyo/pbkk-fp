@@ -43,7 +43,7 @@ Bab yang berisi panduan langkah demi langkah tentang cara menggunakan aplikasi S
 Berikut penjelasan halaman-halaman dan fitur-fitur yang ada pada aplikasi web Setapak untuk pengguna agar dapat mempermudah dan membuat pengalaman belanja yang menyenangkan.
 ### Halaman Utama
 Halaman utama aplikasi web Setapak menampilkan navigasi berupa fitur-fitur fungsional pada aplikasi web Setapak yang akan dijelaskan lebih detail di bagian selanjutnya. Kemudian dibawah navigasi fitur, terdapat nagivasi kategori-kategori produk yang tersedia pada marketplace Setapak untuk menampilkan katalog produk berdasarkan kategori. Kemudian yang terakhir, terdapat carousel atau slide foto produk untuk memamerkan beberapa produk tanpa memakan banyak ruang di layar serta memberikan visualisasi yang interaktif.
-![Halaman Utama](image.png)
+![Halaman Utama](/assets/halaman-utama.png)
 ### Fitur Deteksi Objek 
 Aplikasi web Setapak menyediakan fitur deteksi objek yang memungkinkan pengguna untuk mencari produk alas kaki secara efisien. Pengguna dapat menekan ikon kamera yang terdapat pada navigasi fitur di halaman utama. Fitur ini memungkinkan mereka untuk mengunggah foto alas kaki, seperti sandal, yang ingin dicari. Sistem akan menggunakan teknologi deteksi objek berbasis machine learning untuk mengenali jenis alas kaki dalam gambar yang diunggah. 
 Setelah proses identifikasi selesai, pengguna akan diarahkan ke halaman katalog yang berisi produk serupa dengan alas kaki yang diunggah. Fitur ini dirancang untuk meningkatkan pengalaman pengguna dengan mempermudah proses pencarian, terutama ketika pengguna tidak mengetahui nama atau merek produk yang mereka inginkan.
