@@ -127,7 +127,6 @@ const Header: React.FC = () => {
   
             <div className="flex space-x-6 text-gray-700">
               <i className="fas fa-user text-xl hover:text-black transition-all" onClick={handleNavigation}></i>
-              <i className="fas fa-heart text-xl hover:text-black transition-all" onClick={() => navigate('/favourites')}></i>
               <i className="fas fa-shopping-bag text-xl hover:text-black transition-all" onClick={() => navigate('/cart')}></i>
             </div>
           </div>
@@ -173,7 +172,6 @@ const Header: React.FC = () => {
       </label>
       <div className="flex space-x-6 text-gray-700">
         <i className="fas fa-user text-xl hover:text-black transition-all" onClick={handleNavigation}></i>
-        <i className="fas fa-heart text-xl hover:text-black transition-all" onClick={() => navigate('/favourites')}></i>
         <i className="fas fa-shopping-bag text-xl hover:text-black transition-all" onClick={() => navigate('/cart')}></i>
       </div>
     </div>

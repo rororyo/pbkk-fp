@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom'; // Import Link for routing
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
@@ -15,7 +15,7 @@ const CategoryPage: React.FC = () => {
   useEffect(() => {
     // Fetch all items from the API
     setLoading(true); // Set loading to true when the request starts
-    fetch(`${import.meta.env.VITE_HOMEPAGE_API_URL}/items`)
+    fetch(`${import.meta.env.VITE_API_URL}/homepage/items`)
       .then((response) => response.json())
       .then((data) => {
         const items = data.data;
@@ -46,7 +46,9 @@ const CategoryPage: React.FC = () => {
         ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <Link key={product.id} to={`/product/${product.id}`}>
+                <ProductCard product={product} />
+              </Link>
             ))}
           </div>
         ) : (
