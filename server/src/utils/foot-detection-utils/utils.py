@@ -114,27 +114,31 @@ def getBoundingBox(img):
     return boundRect, contours, contours_poly, img
 
 def calcFeetSize(pcropedImg, fboundRect):
-  x1, y1, w1, h1 = 0, 0, pcropedImg.shape[1], pcropedImg.shape[0]
+    """
+    Calculate the size of the foot in centimeters using the bounding box
+    and the physical dimensions of an A4 paper as reference.
+    """
+    # A4 paper dimensions in cm
+    a4_width_cm = 21.0
+    a4_height_cm = 29.7
 
-  y2 = int(h1/10)
+    # Physical dimensions of the cropped image
+    ph = pcropedImg.shape[0]  # height in pixels
+    pw = pcropedImg.shape[1]  # width in pixels
 
-  x2 = int(w1/10)
+    # Bounding box dimensions of the foot in pixels
+    fw = fboundRect[2]  # width in pixels
+    fh = fboundRect[3]  # height in pixels
 
-  fh = y2 + fboundRect[2][3]
-  fw = x2 + fboundRect[2][2]
-  ph = pcropedImg.shape[0]
-  pw = pcropedImg.shape[1]
+    # Calculate the scaling factor (pixels per cm) for the cropped image
+    scale_width = pw / a4_width_cm
+    scale_height = ph / a4_height_cm
 
-  opw = 210
-  oph = 297
+    # Convert foot dimensions from pixels to cm using the scaling factor
+    foot_width_cm = fw / scale_width
+    foot_height_cm = fh / scale_height
 
-  ofs = 0.0
+    # Use the longer dimension as the foot length
+    foot_length_cm = max(foot_width_cm, foot_height_cm)
 
-  if fw>fh:
-    ofs = (opw/pw)*fw
-  else :
-    ofs = (oph/ph)*fh
-
-
-
-  return ofs
+    return foot_length_cm

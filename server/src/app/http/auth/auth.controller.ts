@@ -14,6 +14,7 @@ import { LoginDto, RegisterDto } from 'src/app/validator/auth/auth.dto';
 import { Request, Response, response } from 'express';
 import { verify } from 'argon2';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { getAuthCookie } from 'src/utils/auth-utils/get-auth-cookie';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +26,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('current-user')
   async fetchCurrentUser(@Req() req: Request) {
-    const cookie = req.cookies['token'];
+    const cookie = getAuthCookie(req);
     const data = await this.jwtService.verifyAsync(cookie);
     const user = await this.authService.findUser({ id: data.id });
     if (!user) throw new BadRequestException('User not found');
@@ -59,6 +60,8 @@ export class AuthController {
       secure: false,
       sameSite: 'none',
     });
+    // Set the Authorization header
+    response.setHeader('Authorization', `Bearer ${jwt}`);
 
     return {
       status: 'success',
@@ -70,11 +73,16 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
+    // Clear the token cookie
     response.clearCookie('token', {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: 'none',
     });
+  
+    // Remove the Authorization header
+    response.removeHeader('Authorization');
+  
     return {
       status: 'success',
       message: 'Logout Success',
