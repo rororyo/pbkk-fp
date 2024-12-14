@@ -72,7 +72,7 @@ Sistem akan secara otomatis menganalisis gambar menggunakan teknologi pengolahan
 
 
 ![fitur pengukuran](/assets/pengukuran.png)
-![fitur pengukuran 1](/assets/pengukuran-1.png)
+![fitur pengukuran-1](/assets/pengukuran-1.png)
 
 Fitur pengukuran kaki pada aplikasi web Setapak ini menggunakan teknologi pengolahan citra yang canggih untuk memberikan hasil yang akurat. Proses dimulai dengan mengonversi gambar yang diunggah oleh pengguna ke dalam format HSV (Hue, Saturation, Value), yang memungkinkan analisis warna lebih efektif. Kemudian, diikuti dengan penerapan Gaussian Blur, yaitu teknik penghalusan gambar yang mengurangi detail dan noise melalui fungsi Gaussian, sehingga menciptakan efek visual yang halus dan memudahkan proses segmentasi gambar.
 
