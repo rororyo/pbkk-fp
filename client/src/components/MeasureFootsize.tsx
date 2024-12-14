@@ -23,7 +23,7 @@ const FootSizeMeasurement: React.FC = () => {
         formData.append('image', file);
         formData.append('gender', gender);
 
-        const response = await fetch(`${import.meta.env.VITE_HOMEPAGE_API_URL}/foot-size`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/homepage/foot-size`, {
           method: 'POST',
           body: formData,
         });
@@ -94,7 +94,7 @@ const FootSizeMeasurement: React.FC = () => {
           formData.append('image', file);
           formData.append('gender', gender);
   
-          const response = await fetch(`${import.meta.env.VITE_HOMEPAGE_API_URL}/foot-size`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/homepage/foot-size`, {
             method: 'POST',
             body: formData,
           });

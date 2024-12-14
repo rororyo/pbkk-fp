@@ -53,7 +53,10 @@ const Sidebar: React.FC = () => {
           <span>Reports</span>
         </button>
         <button
-          onClick={() => navigate('/logout')}
+          onClick={() => {
+            sessionStorage.removeItem('auth_token');  // Remove the auth_token from session storage
+            navigate('/');  // Navigate to the homepage
+          }}
           className="flex items-center space-x-3 hover:bg-red-700 p-3 rounded-md transition-transform transform hover:scale-105 text-red-300"
         >
           <i className="fas fa-sign-out-alt"></i>

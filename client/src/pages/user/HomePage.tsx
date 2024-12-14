@@ -4,6 +4,8 @@ import HeroSection from '../../components/HeroSection';
 import Footer from '../../components/Footer';
 import LogoSection from '../../components/LogoSection';
 import IconComponents from '../../components/FeatureList';
+import FullScreenVideoPlayer from '../../components/VideoSection';
+import TopPicks from '../../components/TopPicks';
 
 const HomePage: React.FC = () => {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
@@ -22,6 +24,10 @@ const HomePage: React.FC = () => {
       <HeroSection />
       <div className='mt-3 mb-2'>
         <LogoSection />
+        <br />
+        <TopPicks />
+        <br />
+        <FullScreenVideoPlayer />
         <IconComponents />
       </div>
 
